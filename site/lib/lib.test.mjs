@@ -298,6 +298,9 @@ eq("copy all joins canned lines in pick order", copyAllText(ow), 'Art by "A" <x>
 /* entry page: maintenance and shortlist toggle ----------------------------- */
 has("maintenance row on an archived entry", page({ maintenance: "archived" }), "<dt>Maintenance</dt><dd>archived: The source repository is archived");
 lacks("no maintenance row by default", page(), "<dt>Maintenance</dt>");
+has("engine lock row on a UE-only entry", page({ engine_lock: "unreal" }), "<dt>Engine lock</dt><dd>Licensed for use only in products built with Unreal Engine");
+has("Unreal version row", page({ ue_versions: "5.4-5.8" }), "<dt>Unreal Engine</dt><dd>5.4-5.8, as stated by the source");
+lacks("no engine rows by default", page(), "<dt>Engine lock</dt>");
 has("entry page has a shortlist toggle", page(), 'data-shortlist="e1"');
 has("entry page loads the shortlist module", page(), '<script type="module" src="../../shortlist.js"></script>');
 /* shortlist: CREDITS file -------------------------------------------------- */

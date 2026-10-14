@@ -215,6 +215,44 @@ only release are Godot 3.
 | [func-godot](func-godot.md) | func_godot | MIT | active |
 | [folded-paper-engine](folded-paper-engine.md) | Folded Paper Engine | MIT | active |
 
+## Unreal Engine plugins
+
+Free, open-source plugins for Unreal Engine 5. The UE column is the range each project
+states, read on 2026-10-13; a blank means the project states none. The Unreal Engine
+EULA forbids combining the engine with GPL or LGPL code, so the validator rejects a
+copyleft licence here. Licensing and the Epic sample projects are covered in
+[`docs/unreal.md`](../../docs/unreal.md).
+
+| Job | Take | UE | Why |
+| --- | --- | --- | --- |
+| Dialogue as a node graph | [dlgsystem](dlgsystem.md) | 5.6-5.8 | Graph editor, Blueprint and C++ |
+| Dialogue as a text script | [suds](suds.md) | | Plain-text scripts with choices, branches and variables |
+| Dialogue with a validator | [mountea-dialogue-system](mountea-dialogue-system.md) | 5.2-5.8 | Own graph editor; MPL-2.0, so modified plugin files stay open |
+| Save games and level persistence | [spud](spud.md) | | Saves streamed-level state without hand-written serialisation |
+| Quests | [suqs](suqs.md) | | Data-driven objectives and tasks |
+| Event and mission flow | [flowgraph](flowgraph.md) | 5.6-5.8 | Asynchronous nodes for quests, story beats and level events |
+| Hair, tails and cloth jiggle | [kawaii-physics](kawaii-physics.md) | 5.3-5.8 | Cheap bone physics in the Anim Graph |
+| Async gameplay code | [ue5coro](ue5coro.md) | | C++20 coroutines as latent Blueprint nodes |
+| Debug UI | [unreal-imgui](unreal-imgui.md) | 4.27-5.5 | Dear ImGui plus ImPlot, maintained fork |
+| Quake/HL2-style movement | [pb-character-movement](pb-character-movement.md) | 5.5 | Source-engine feel: air strafing, bunny hopping, crouch sliding |
+| Third-person locomotion (legacy) | [als-community](als-community.md) | 5.4 | Compatibility fixes only; prefer the Game Animation Sample for new work |
+| Learning the Gameplay Ability System | [gas-documentation](gas-documentation.md) | 5.3 | Community GAS guide with a sample project |
+
+| ID | Name | License | Status |
+| --- | --- | --- | --- |
+| [dlgsystem](dlgsystem.md) | DlgSystem | MIT | active |
+| [suds](suds.md) | SUDS (Steve's Unreal Dialogue System) | MIT | active |
+| [spud](spud.md) | SPUD (Steve's Persistent Unreal Data) | MIT | active |
+| [suqs](suqs.md) | SUQS (Steve's Unreal Quest System) | MIT | active |
+| [flowgraph](flowgraph.md) | Flow Graph | MIT | active |
+| [mountea-dialogue-system](mountea-dialogue-system.md) | Mountea Dialogue System | MPL-2.0 | active |
+| [kawaii-physics](kawaii-physics.md) | Kawaii Physics | MIT | active |
+| [ue5coro](ue5coro.md) | UE5Coro | BSD-3-Clause-Clear | active |
+| [unreal-imgui](unreal-imgui.md) | UnrealImGui (IDI-Systems fork) | MIT | active |
+| [pb-character-movement](pb-character-movement.md) | PBCharacterMovement | MIT | active |
+| [als-community](als-community.md) | Advanced Locomotion System Community | MIT | active |
+| [gas-documentation](gas-documentation.md) | GASDocumentation | MIT | active |
+
 ## GTA-format tooling
 
 Software only. Not a GTA V asset grant. See [`docs/fivem.md`](../../docs/fivem.md).

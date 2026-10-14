@@ -4,6 +4,20 @@ Newest section at the top. One section per review run. This is the record of wha
 run measured, what it changed, what it deliberately did not change, and what the next
 run should not spend time re-deciding.
 
+## 2026-10-13 (Unreal Engine sources)
+
+22 new entries, each read at the source on 2026-10-13: Fab listings in a browser (plain fetches return 403), GitHub licences, READMEs, `.uplugin` files and the repository API.
+
+- **Schema (V23):** optional `engine_lock: unreal` for listings Epic marks "UE-Only Content", and `ue_versions` for the engine range a source states. The validator rejects GPL/LGPL on any entry with an Unreal format, because the UE EULA forbids combining the engine with them (clause quoted in `docs/unreal.md`). New format `unreal-plugin`, a Format-filter group "Unreal Engine", and licence `BSD-3-Clause-Clear` (UE5Coro).
+- **Now `active` (15):** lyra-starter-game, cropout-sample-project, electric-dreams-environment (all `engine_lock: unreal`), and the twelve plugins in the tools README's Unreal section.
+- **`needs-review` (7):**
+  - game-animation-sample, stack-o-bot, city-sample and paragon-characters: no UE-only line on the listing, contrary to earlier research. City Sample's Buildings, Vehicles and Crowds packs do carry it.
+  - megascans-starter-content: the Epic Content License's Megascans clause still limits Megascans acquired outside a plan to "internal evaluation purposes", which conflicts with the starter set being under the Fab Standard License.
+  - metahuman: the cross-engine use statement and the Content License's UE-only wording for acquired MetaHuman content disagree.
+  - fab-free-content: an aggregator, so the licence is per listing.
+- **Did not change:** the existing OpenGameArt/LPC/CC-BY-SA entries. CC-BY-SA is barred only for Unreal projects; `docs/licenses.md` and `docs/unreal.md` now say so instead of flagging each entry.
+- **Not added this pass:** game-ci, Valley of the Ancient (UE5 Early Access era), Epic's built-in plugins (PCG, Substrate, MegaLights and similar ship with the engine and carry no separate licence), and individual Limited-Time Free items.
+
 ## 2026-10-04 (needs-review sweep #54-#57, 2D fields #41, client tests #67)
 
 Every entry listed in #54-#57 (37) was re-read at its source on 2026-10-04. Each one has `verified: 2026-10-04` and a dated Evidence line quoting what was read.

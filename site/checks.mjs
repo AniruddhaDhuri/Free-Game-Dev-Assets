@@ -398,6 +398,42 @@ export function checkMaintenance(rel, meta) {
     : [`${rel} maintenance "${v}" is not one of ${[...MAINTENANCE_VALUES].join(" | ")}`];
 }
 
+/* ----------------------------------------------------------------- V23 */
+/**
+ * Optional engine fields. `engine_lock: unreal` records a licence that only
+ * permits use in products built with that engine (Epic's "UE-Only Content").
+ * `ue_versions` is the Unreal Engine range the source itself states:
+ * `5.4`, `5.4-5.8` or `5.4+`.
+ */
+export const ENGINE_LOCK_VALUES = new Set(["unreal"]);
+const UNREAL_FORMATS = new Set(["Unreal", "unreal-plugin"]);
+const UE_VERSIONS_RE = /^(\d+)\.(\d+)(?:(\+)|-(\d+)\.(\d+))?$/;
+
+export function checkEngineFields(rel, meta) {
+  const errors = [];
+  if (!empty(meta.engine_lock) && !ENGINE_LOCK_VALUES.has(String(meta.engine_lock))) {
+    errors.push(`${rel} engine_lock "${meta.engine_lock}" is not one of ${[...ENGINE_LOCK_VALUES].join(" | ")}`);
+  }
+  if (!empty(meta.ue_versions)) {
+    const v = String(meta.ue_versions);
+    const m = UE_VERSIONS_RE.exec(v);
+    if (!m) {
+      errors.push(`${rel} ue_versions "${v}" is not X.Y, X.Y-X.Y or X.Y+`);
+    } else if (m[4] !== undefined && Number(m[1]) * 1000 + Number(m[2]) > Number(m[4]) * 1000 + Number(m[5])) {
+      errors.push(`${rel} ue_versions "${v}" runs backwards`);
+    }
+  }
+  // The Unreal Engine EULA forbids combining the engine with GPL or LGPL code
+  // (LGPL only when dynamically linked), so a copyleft plugin cannot ship in a
+  // UE game. Standalone GPL tools (Blender, GIMP) are unaffected: their output
+  // is not GPL.
+  const formats = Array.isArray(meta.formats) ? meta.formats.map(String) : [];
+  if (formats.some((f) => UNREAL_FORMATS.has(f)) && /GPL/.test(String(meta.license ?? ""))) {
+    errors.push(`${rel} is Unreal content under ${meta.license}; the Unreal Engine EULA forbids combining the engine with GPL/LGPL code`);
+  }
+  return errors;
+}
+
 /* ----------------------------------------------------------------- V20 */
 /**
  * `formats` is a closed list (site/format-vocabulary.json). V13 and V19 only

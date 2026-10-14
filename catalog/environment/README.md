@@ -20,5 +20,7 @@
 | [overture-maps](overture-maps.md) | Overture Maps | varies | unknown | needs-review |
 | [nasa-deep-star-maps](nasa-deep-star-maps.md) | NASA Deep Star Maps 2020 | custom | unknown | needs-review |
 | [ahn-netherlands](ahn-netherlands.md) | AHN (Netherlands) | unknown | unknown | needs-review |
+| [city-sample](city-sample.md) | City Sample | custom | yes | needs-review |
+| [electric-dreams-environment](electric-dreams-environment.md) | Electric Dreams Env (UE only) | custom | yes | active |
 
 \* Attribution / endorsement / geo / notify-JAXA rules — see entry + [`docs/licenses.md`](../../docs/licenses.md). Avoid **FABDEM** (NC) and **HDRLabs sIBL** (CC-BY-NC-SA) — [`docs/high-risk.md`](../../docs/high-risk.md).

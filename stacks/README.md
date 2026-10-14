@@ -8,6 +8,7 @@ owes from the picked entries. Each stack has a page at `stack/<id>/` on the site
 | [Make a 2D pixel platformer](2d-pixel-platformer.md) | A side-scrolling pixel-art platformer |
 | [Make a 2D top-down pixel game](2d-top-down-pixel.md) | A top-down pixel-art adventure or RPG |
 | [Make a 3D low-poly arena game in Godot](3d-low-poly-arena-godot.md) | A 3D arena game with rigged characters, in Godot 4 |
+| [Make a 3D third-person game in Unreal Engine 5](3d-third-person-unreal.md) | A third-person game with dialogue, quests and saves, in UE5 |
 | [Make a first-person destruction game](first-person-destruction.md) | A first-person game about breaking things |
 | [Make a mobile puzzle game](mobile-puzzle.md) | A casual match-3 or board-style game for phones |
 

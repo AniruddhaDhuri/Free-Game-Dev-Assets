@@ -22,6 +22,8 @@ status: needs-review   # set active once the licence is read and quoted in ## Ev
 # camera_perspective: top_down   # isometric_3_4 | side_scroller | 2d_flat. 2D and UI entries only; 3D and characters leave it out
 # hardware_tags: [steam_deck, switch_2]
 # maintenance: archived   # or inactive (no push in 3 years); from the source repository, with a dated Notes line
+# engine_lock: unreal   # only when the licence restricts use to Unreal Engine products (Epic's "UE-Only Content")
+# ue_versions: "5.4-5.8"   # Unreal versions as the source states them: "5.4", "5.4-5.8" or "5.4+"
 ---
 
 # Example Source

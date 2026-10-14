@@ -12,6 +12,7 @@ import {
   checkCategorySets,
   checkCountTables,
   checkDeprecationReason,
+  checkEngineFields,
   checkEntryUrl,
   checkEvidenceDates,
   checkFormatVocabulary,
@@ -313,6 +314,7 @@ function main() {
     errors.push(...checkFormatVocabulary(rel, meta, formatVocab));
     errors.push(...checkTagsRestatePublisher(rel, meta));
     errors.push(...checkMaintenance(rel, meta));
+    errors.push(...checkEngineFields(rel, meta));
     errors.push(...checkActiveIsSettled(rel, meta));
     if (meta.id) {
       const id = String(meta.id);

@@ -4,11 +4,11 @@
 
 **Free assets and tools for commercial games, with every licence read at its source.**
 
-[**Browse 392 sources**](https://tmhsdigital.github.io/Free-Game-Dev-Assets/)  ·  [Starter stacks](#starter-stacks)  ·  [Choose by job](#start-here)  ·  [Licences](#licences)  ·  [Contribute](#contributing)
+[**Browse 414 sources**](https://tmhsdigital.github.io/Free-Game-Dev-Assets/)  ·  [Starter stacks](#starter-stacks)  ·  [Choose by job](#start-here)  ·  [Licences](#licences)  ·  [Contribute](#contributing)
 
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Ftmhsdigital.github.io%2FFree-Game-Dev-Assets%2F&up_message=live&down_message=down&label=website)](https://tmhsdigital.github.io/Free-Game-Dev-Assets/)
 [![Pages](https://img.shields.io/github/actions/workflow/status/TMHSDigital/Free-Game-Dev-Assets/pages.yml?label=pages)](https://github.com/TMHSDigital/Free-Game-Dev-Assets/actions/workflows/pages.yml)
-[![Sources](https://img.shields.io/badge/sources-392-informational)](https://tmhsdigital.github.io/Free-Game-Dev-Assets/)
+[![Sources](https://img.shields.io/badge/sources-414-informational)](https://tmhsdigital.github.io/Free-Game-Dev-Assets/)
 [![License: CC0-1.0](https://img.shields.io/badge/license-CC0--1.0-lightgrey.svg)](LICENSE)
 <br />
 [![GitHub stars](https://img.shields.io/github/stars/TMHSDigital/Free-Game-Dev-Assets)](https://github.com/TMHSDigital/Free-Game-Dev-Assets/stargazers)
@@ -55,7 +55,7 @@ re-check forty tabs before a release. (Thanks to magictools: many tool entries s
 
 ## Contents
 
-[Start here](#start-here) · [Starter stacks](#starter-stacks) · [Browse the catalog](#browse-the-catalog) · [Reading an entry](#reading-an-entry) · [Safe starting points](#safe-starting-points) · [Licences](#licences) · [Godot](#godot) · [How the catalog stays honest](#how-the-catalog-stays-honest) · [Scope](#scope) · [Contributing](#contributing) · [Support](#support)
+[Start here](#start-here) · [Starter stacks](#starter-stacks) · [Browse the catalog](#browse-the-catalog) · [Reading an entry](#reading-an-entry) · [Safe starting points](#safe-starting-points) · [Licences](#licences) · [Godot](#godot) · [Unreal Engine](#unreal-engine) · [How the catalog stays honest](#how-the-catalog-stays-honest) · [Scope](#scope) · [Contributing](#contributing) · [Support](#support)
 
 ## A few of the sources
 
@@ -144,27 +144,28 @@ is a page on the site.
 | [**2D pixel platformer**](https://tmhsdigital.github.io/Free-Game-Dev-Assets/stack/2d-pixel-platformer/) | A side-scrolling pixel-art platformer you intend to sell |
 | [**2D top-down pixel game**](https://tmhsdigital.github.io/Free-Game-Dev-Assets/stack/2d-top-down-pixel/) | An adventure or RPG with menus, controller prompts and a terminal-style font |
 | [**3D low-poly arena in Godot**](https://tmhsdigital.github.io/Free-Game-Dev-Assets/stack/3d-low-poly-arena-godot/) | Rigged, animated characters and impact sounds, built in Godot 4 |
+| [**3D third-person in Unreal Engine 5**](https://tmhsdigital.github.io/Free-Game-Dev-Assets/stack/3d-third-person-unreal/) | Motion-matched animation, dialogue, quests and save games, built in UE5 |
 | [**First-person destruction**](https://tmhsdigital.github.io/Free-Game-Dev-Assets/stack/first-person-destruction/) | Debris materials, industrial props and ambience for a game about breaking things |
 | [**Mobile puzzle**](https://tmhsdigital.github.io/Free-Game-Dev-Assets/stack/mobile-puzzle/) | A casual match-3 or board-style game for phones |
 
 ## Browse the catalog
 
-The [website](https://tmhsdigital.github.io/Free-Game-Dev-Assets/) searches all 392 entries
+The [website](https://tmhsdigital.github.io/Free-Game-Dev-Assets/) searches all 414 entries
 and filters them by category, commercial use, attribution, review status and 2D camera
 view. Press `/` to search. Filtered views and individual entries have their own URLs, so you can send
 someone exactly what you are looking at.
 
 | Category | Entries | Focus | Index |
 | :--- | ---: | :--- | :--- |
-| **3D** | 72 | Models, scans, PBR textures and materials | [`catalog/3d/`](catalog/3d/) |
-| **Tools** | 109 | Editors, pipeline, TTS, Godot add-ons | [`catalog/tools/`](catalog/tools/) |
+| **3D** | 77 | Models, scans, PBR textures and materials | [`catalog/3d/`](catalog/3d/) |
+| **Tools** | 121 | Editors, pipeline, TTS, Godot add-ons | [`catalog/tools/`](catalog/tools/) |
 | **2D** | 58 | Sprites, tilesets, UI and HUD, icons, palettes | [`catalog/2d/`](catalog/2d/) |
 | **Audio** | 34 | SFX, music, foley, impulse responses | [`catalog/audio/`](catalog/audio/) |
-| **Characters** | 28 | Rigged packs, generators, modular humanoids | [`catalog/characters/`](catalog/characters/) |
+| **Characters** | 30 | Rigged packs, generators, modular humanoids | [`catalog/characters/`](catalog/characters/) |
 | **Fonts** | 25 | OFL and commercial-ok typefaces, CJK | [`catalog/fonts/`](catalog/fonts/) |
-| **Environment** | 18 | HDRI, terrain DEMs, geodata | [`catalog/environment/`](catalog/environment/) |
+| **Environment** | 20 | HDRI, terrain DEMs, geodata | [`catalog/environment/`](catalog/environment/) |
 | **Shaders & VFX** | 18 | Shaders, particle and FX resources | [`catalog/shaders-vfx/`](catalog/shaders-vfx/) |
-| **Animation** | 17 | Motion capture and character clips | [`catalog/animation/`](catalog/animation/) |
+| **Animation** | 18 | Motion capture and character clips | [`catalog/animation/`](catalog/animation/) |
 | **Video** | 13 | Stock footage, archival clips | [`catalog/video/`](catalog/video/) |
 
 ## Reading an entry
@@ -282,6 +283,16 @@ its row in the [maintenance table](catalog/tools/README.md#godot-4-add-ons). Som
 add-ons' latest release is years older than their maintained branch, one is alpha, and
 one is a Godot 3 runtime listed beside the Godot 4 ones.
 
+## Unreal Engine
+
+Epic sample projects (Lyra, Cropout, Stack O Bot, City Sample, Electric Dreams, the Game
+Animation Sample), Megascans starter content, MetaHuman and a dozen open-source UE5
+plugins are catalogued with the engine range each source states and a **UE only** badge
+where Epic restricts the licence to Unreal. Read [`docs/unreal.md`](docs/unreal.md) before
+importing: the Unreal Engine EULA forbids combining the engine with GPL, LGPL or CC-BY-SA
+material, and Fab content may never go in a public repository. The plugins are in the
+[Unreal Engine plugins](catalog/tools/README.md#unreal-engine-plugins) table.
+
 ## How the catalog stays honest
 
 A catalog like this is only useful if you can trust it, and trust has to be checked, not
@@ -355,7 +366,7 @@ npm run serve    # preview at http://localhost:3000
 ├── docs/
 │   ├── licenses.md fonts.md geodata.md game-vs-video-licensing.md
 │   ├── provenance.md high-risk.md ai-assets.md fivem.md trust-score.md
-│   ├── godot-budget-stack.md
+│   ├── godot-budget-stack.md unreal.md
 │   ├── research-index.md       maintainer notes on local research drafts
 │   ├── design/                 design specs behind the entry pages, stacks and freshness page
 │   ├── review-ledger.md        every review pass and what it changed

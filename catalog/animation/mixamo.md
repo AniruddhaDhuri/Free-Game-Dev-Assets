@@ -22,6 +22,7 @@ Adobe’s free character + animation service (Adobe ID required; no CC subscript
 - Unavailable for Enterprise/Federated IDs and China country codes (per Adobe FAQ)
 - Humanoid bipeds only for auto-rigger / animation library
 - Save rigged characters locally; service keeps only the last character
+- Unreal Engine: the IK Rig editor's Auto Retarget Chains tool matches bone chains by name against templates. Epic's templates name the UE4/UE5 Mannequins, MetaHumans and Stack O Bot, not Mixamo, so check the generated chains before batch-retargeting. For a third-person Unreal project, the [Game Animation Sample](game-animation-sample.md) already targets the UE5 Mannequin
 - Prefer CC0 packs ([Quaternius UAL](quaternius-universal-animation-library.md), [KayKit](kaykit-character-animations.md)) when you want redistribute-friendly sources
 
 ## Evidence
@@ -33,3 +34,4 @@ Adobe’s free character + animation service (Adobe ID required; no CC subscript
 - [quaternius-universal-animation-library](quaternius-universal-animation-library.md)
 - [kaykit-character-animations](kaykit-character-animations.md)
 - [cmu-mocap](cmu-mocap.md)
+- [game-animation-sample](game-animation-sample.md)

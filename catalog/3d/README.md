@@ -136,5 +136,10 @@ than pack-wide. Triangle counts are geometry and survive re-hosting; file sizes 
 | [sketchfab](sketchfab.md) | Sketchfab | varies | varies | needs-review |
 | [nasa-3d-resources](nasa-3d-resources.md) | NASA 3D Resources | public-domain* | yes* | active |
 | [textureking](textureking.md) | TextureKing | custom | unknown | needs-review |
+| [lyra-starter-game](lyra-starter-game.md) | Lyra Starter Game (UE only) | custom | yes | active |
+| [cropout-sample-project](cropout-sample-project.md) | Cropout Sample Project (UE only) | custom | yes | active |
+| [stack-o-bot](stack-o-bot.md) | Stack O Bot | custom | yes | needs-review |
+| [megascans-starter-content](megascans-starter-content.md) | Megascans Starter Content (Free on Fab) | custom | yes | needs-review |
+| [fab-free-content](fab-free-content.md) | Fab Free Listings and Limited-Time Free | varies | varies | needs-review |
 
 \* Fab Standard vs Epic Content License — verify per asset; Fab/Epic license pages unreachable this harden pass. Poly Haven models are under [`environment/poly-haven`](../environment/poly-haven.md) (CC0).

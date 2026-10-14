@@ -6,7 +6,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { commercialLabel, esc, latestAllowedDate, MAINTENANCE_NOTES, PERSPECTIVE_LABELS, sponsorButtonHtml, verifiedAge } from "./lib/shared.mjs";
+import { commercialLabel, ENGINE_LOCK_LABELS, ENGINE_LOCK_NOTES, esc, latestAllowedDate, MAINTENANCE_NOTES, PERSPECTIVE_LABELS, sponsorButtonHtml, verifiedAge } from "./lib/shared.mjs";
 import { parseFrontmatter, summaryFromBody } from "./lib/frontmatter.mjs";
 import { listEntryFiles } from "./lib/entry-files.mjs";
 import { entryPageHtml, scriptJson } from "./lib/entry-page.mjs";
@@ -109,6 +109,8 @@ function loadEntries(vocab) {
       ...(meta.publisher ? { publisher: String(meta.publisher) } : {}),
       ...(meta.license_spdx ? { license_spdx: String(meta.license_spdx) } : {}),
       ...(meta.maintenance ? { maintenance: String(meta.maintenance) } : {}),
+      ...(meta.engine_lock ? { engine_lock: String(meta.engine_lock) } : {}),
+      ...(meta.ue_versions ? { ue_versions: String(meta.ue_versions) } : {}),
       licenseFamily: licenseFamily(vocab, String(meta.license)),
       attributionClass: vocab.licenses[String(meta.license)]?.attribution || "any",
       licenseRank:
@@ -141,6 +143,12 @@ function maintenanceFlagHtml(entry) {
   return ` <span class="maintenance-flag" title="${esc(title)}">${esc(entry.maintenance)}</span>`;
 }
 
+function engineLockFlagHtml(entry) {
+  if (!entry.engine_lock) return "";
+  const title = ENGINE_LOCK_NOTES[entry.engine_lock] || "";
+  return ` <span class="engine-flag" title="${esc(title)}">${esc(ENGINE_LOCK_LABELS[entry.engine_lock] || entry.engine_lock)}</span>`;
+}
+
 function entryRowHtml(entry, repo, now) {
   const age = verifiedAge(entry.verified, now);
   const ageText =
@@ -165,7 +173,7 @@ function entryRowHtml(entry, repo, now) {
   <div class="entry-body">
     <div class="entry-top">
       <h4><a class="entry-link" href="entry/${esc(entry.id)}/" data-id="${esc(entry.id)}">${esc(entry.name)}</a></h4>
-      <span class="entry-flags">${flags}${maintenanceFlagHtml(entry)}</span>
+      <span class="entry-flags">${flags}${maintenanceFlagHtml(entry)}${engineLockFlagHtml(entry)}</span>
     </div>
     <p>${esc(entry.summary || "")}</p>
     <div class="meta-line">

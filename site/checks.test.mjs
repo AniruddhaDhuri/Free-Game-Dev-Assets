@@ -16,6 +16,7 @@ import {
   checkCategorySets,
   checkCountTables,
   checkDeprecationReason,
+  checkEngineFields,
   checkEntryUrl,
   checkEvidenceDates,
   checkFormatVocabulary,
@@ -715,6 +716,18 @@ accepts("V22 leaves the field optional", checkMaintenance("ok.md", {}));
   same("no push in over three years is inactive", maintenanceFromRepo({ archived: false, pushed_at: "2023-01-01T00:00:00Z" }, now), "inactive");
   same("a recent push is neither", maintenanceFromRepo({ archived: false, pushed_at: "2025-01-01T00:00:00Z" }, now), null);
 }
+
+/* V23: engine fields ---------------------------------------------------- */
+rejects("V23 rejects an unknown engine_lock", checkEngineFields("bad.md", { engine_lock: "unity" }), 'engine_lock "unity" is not one of unreal');
+rejects("V23 rejects a malformed ue_versions", checkEngineFields("bad.md", { ue_versions: "UE5" }), 'ue_versions "UE5" is not X.Y, X.Y-X.Y or X.Y+');
+rejects("V23 rejects a backwards range", checkEngineFields("bad.md", { ue_versions: "5.8-5.4" }), 'ue_versions "5.8-5.4" runs backwards');
+accepts("V23 accepts a range", checkEngineFields("ok.md", { engine_lock: "unreal", ue_versions: "5.4-5.8" }));
+accepts("V23 accepts an open range", checkEngineFields("ok.md", { ue_versions: "5.6+" }));
+accepts("V23 accepts a single version", checkEngineFields("ok.md", { ue_versions: "5.8" }));
+accepts("V23 compares minor versions numerically", checkEngineFields("ok.md", { ue_versions: "5.9-5.10" }));
+accepts("V23 leaves both fields optional", checkEngineFields("ok.md", {}));
+rejects("V23 rejects a GPL Unreal plugin", checkEngineFields("bad.md", { license: "GPL-3.0-only", formats: ["unreal-plugin"] }), "forbids combining the engine with GPL/LGPL code");
+accepts("V23 allows a GPL standalone tool", checkEngineFields("ok.md", { license: "GPL-3.0-only", formats: ["desktop-app"] }));
 
 /* V21: tag restating the publisher ------------------------------------- */
 rejects("V21 rejects the publisher as a tag", checkTagsRestatePublisher("bad.md", { publisher: "Blender Studio", tags: ["blender-studio", "open-movie"] }), 'tag "blender-studio" restates publisher');

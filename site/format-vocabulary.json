@@ -100,6 +100,7 @@
     "TXT",
     "Unity",
     "Unreal",
+    "unreal-plugin",
     "USD",
     "various",
     "VDB",
@@ -196,6 +197,13 @@
         "godot-addon",
         "gdshader",
         "gdextension"
+      ]
+    },
+    "unreal": {
+      "label": "Unreal Engine",
+      "formats": [
+        "Unreal",
+        "unreal-plugin"
       ]
     },
     "video": {

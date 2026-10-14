@@ -61,6 +61,11 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
     archived: "The source repository is archived: read-only, no fixes or updates.",
     inactive: "The source has had no new commits for over three years.",
   };
+  // Mirrors shared.mjs ENGINE_LOCK_NOTES / ENGINE_LOCK_LABELS.
+  const ENGINE_LOCK_NOTES = {
+    unreal: "Licensed for use only in products built with Unreal Engine (Epic's UE-Only Content).",
+  };
+  const ENGINE_LOCK_LABELS = { unreal: "UE only" };
   // Ages are measured at build time, like the prerendered cards and the
   // freshness line, so the page never disagrees with itself. A weekly
   // scheduled build keeps the build time recent.
@@ -220,12 +225,16 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
     const maintenance = entry.maintenance
       ? ` <span class="maintenance-flag" title="${escapeHtml(MAINTENANCE_NOTES[entry.maintenance] || "")}">${escapeHtml(entry.maintenance)}</span>`
       : "";
+    // The same badge as build.mjs engineLockFlagHtml.
+    const engineLock = entry.engine_lock
+      ? ` <span class="engine-flag" title="${escapeHtml(ENGINE_LOCK_NOTES[entry.engine_lock] || "")}">${escapeHtml(ENGINE_LOCK_LABELS[entry.engine_lock] || entry.engine_lock)}</span>`
+      : "";
     return `<article class="entry-card" id="entry-${escapeHtml(entry.id)}" data-id="${escapeHtml(entry.id)}" data-status="${escapeHtml(entry.status)}" style="--edge:${edgeColor(entry)}">
   <span class="entry-edge" aria-hidden="true"></span>
   <div class="entry-body">
     <div class="entry-top">
       <h4><a class="entry-link" href="entry/${escapeHtml(entry.id)}/" data-id="${escapeHtml(entry.id)}">${escapeHtml(entry.name)}</a></h4>
-      <span class="entry-flags">${flags}${maintenance}</span>
+      <span class="entry-flags">${flags}${maintenance}${engineLock}</span>
     </div>
     <p>${escapeHtml(entry.summary || "")}</p>
     <div class="meta-line">

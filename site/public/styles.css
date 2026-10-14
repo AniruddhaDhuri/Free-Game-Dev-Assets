@@ -1521,8 +1521,10 @@ input:focus-visible,
   border-color: var(--ink);
 }
 
-/* Archived or long-inactive source (the `maintenance` field). */
-.maintenance-flag {
+/* Archived or long-inactive source (the `maintenance` field), and an
+   engine-locked licence (the `engine_lock` field). */
+.maintenance-flag,
+.engine-flag {
   margin-left: 0.4rem;
   padding: 0 0.3rem;
   border: 1px solid var(--warn);

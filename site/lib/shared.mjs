@@ -14,6 +14,14 @@ export const MAINTENANCE_NOTES = {
   inactive: "The source has had no new commits for over three years.",
 };
 
+/** What each `engine_lock` value tells a reader (checks.mjs V23). */
+export const ENGINE_LOCK_NOTES = {
+  unreal: "Licensed for use only in products built with Unreal Engine (Epic's UE-Only Content).",
+};
+
+/** Short badge text for each `engine_lock` value. */
+export const ENGINE_LOCK_LABELS = { unreal: "UE only" };
+
 /** One-line meaning of each status, matching the homepage legend. */
 export const STATUS_NOTES = {
   active: "License spot-checked at the source; the entry carries dated evidence.",

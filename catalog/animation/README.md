@@ -19,6 +19,7 @@
 | [quaternius-animated-women-pack](quaternius-animated-women-pack.md) | Quaternius Animated Women Pack | CC0 | yes | active |
 | [quaternius-animated-guns-pack](quaternius-animated-guns-pack.md) | Quaternius Animated Guns Pack | CC0 | yes | active |
 | [quaternius-background-posed-humans](quaternius-background-posed-humans.md) | Quaternius Background Posed Humans Pack | CC0 | yes | active |
+| [game-animation-sample](game-animation-sample.md) | Game Animation Sample (GASP) | custom | yes | needs-review |
 
 \* Standard License caps (~1M users / $1M revenue); AI training needs AI Permit.  
 \* Rokoko Vision: free Starter quotas; generated motion commercial per Create FAQ.
