@@ -1,4 +1,12 @@
-import { passesFilters as passes, queryTests as compileQuery, readState, scoreFields, searchFields, stateQuery } from "./search.js";
+import {
+  closestEntries,
+  passesFilters as passes,
+  queryTests as compileQuery,
+  readState,
+  scoreFields,
+  searchFields,
+  stateQuery,
+} from "./search.js";
 
 (() => {
   const data = window.__CATALOG__;
@@ -35,9 +43,13 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
   const FORMAT_GROUPS = data.filters?.formatGroups || {};
 
   const categoryLabels = data.categories || {};
-  const repo = data.site?.repo || "https://github.com/TMHSDigital/Free-Game-Dev-Assets";
+  const repo =
+    data.site?.repo || "https://github.com/TMHSDigital/Free-Game-Dev-Assets";
   // No prototype: "#entry-constructor" must not look like an entry.
-  const byId = Object.assign(Object.create(null), Object.fromEntries(data.entries.map((e) => [e.id, e])));
+  const byId = Object.assign(
+    Object.create(null),
+    Object.fromEntries(data.entries.map((e) => [e.id, e]))
+  );
 
   // Old permalinks (#entry-<id>) now have real pages.
   const legacy = location.hash.match(/^#entry-(.+)$/);
@@ -58,12 +70,14 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
     "2d_flat": "flat UI",
   };
   const MAINTENANCE_NOTES = {
-    archived: "The source repository is archived: read-only, no fixes or updates.",
+    archived:
+      "The source repository is archived: read-only, no fixes or updates.",
     inactive: "The source has had no new commits for over three years.",
   };
   // Mirrors shared.mjs ENGINE_LOCK_NOTES / ENGINE_LOCK_LABELS.
   const ENGINE_LOCK_NOTES = {
-    unreal: "Licensed for use only in products built with Unreal Engine (Epic's UE-Only Content).",
+    unreal:
+      "Licensed for use only in products built with Unreal Engine (Epic's UE-Only Content).",
   };
   const ENGINE_LOCK_LABELS = { unreal: "UE only" };
   // Ages are measured at build time, like the prerendered cards and the
@@ -101,11 +115,14 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
 
   /** Age of the license check, which is this catalog's main credibility signal. */
   function verifiedAge(verified) {
-    if (!verified) return { days: null, bucket: "unknown", text: "verified date unknown" };
+    if (!verified)
+      return { days: null, bucket: "unknown", text: "verified date unknown" };
     const t = Date.parse(`${verified}T00:00:00Z`);
-    if (Number.isNaN(t)) return { days: null, bucket: "unknown", text: "verified date unknown" };
+    if (Number.isNaN(t))
+      return { days: null, bucket: "unknown", text: "verified date unknown" };
     const days = Math.max(0, Math.floor((NOW - t) / 86400000));
-    const bucket = days <= FRESH_DAYS ? "fresh" : days <= AGING_DAYS ? "aging" : "stale";
+    const bucket =
+      days <= FRESH_DAYS ? "fresh" : days <= AGING_DAYS ? "aging" : "stale";
     return { days, bucket, text: `verified ${verified} (${days}d ago)` };
   }
 
@@ -165,13 +182,18 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
       pool.push(e);
     }
     const counts = new Map();
-    for (const e of pool) counts.set(e.category, (counts.get(e.category) || 0) + 1);
+    for (const e of pool)
+      counts.set(e.category, (counts.get(e.category) || 0) + 1);
     const list =
-      state.category === "all" ? pool.slice() : pool.filter((e) => e.category === state.category);
+      state.category === "all"
+        ? pool.slice()
+        : pool.filter((e) => e.category === state.category);
     const ranked = state.sort === "name" && queryTests().length > 0;
     if (ranked) {
       // Searching under the default sort: best match first, then by name.
-      list.sort((a, b) => score.get(b.id) - score.get(a.id) || SORTS.name(a, b));
+      list.sort(
+        (a, b) => score.get(b.id) - score.get(a.id) || SORTS.name(a, b)
+      );
     } else {
       list.sort(SORTS[state.sort] || SORTS.name);
     }
@@ -185,11 +207,13 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
 
   let compiled = { q: null, tests: [] };
   function queryTests() {
-    if (compiled.q !== state.q) compiled = { q: state.q, tests: compileQuery(state.q) };
+    if (compiled.q !== state.q)
+      compiled = { q: state.q, tests: compileQuery(state.q) };
     return compiled.tests;
   }
 
-  const searchScore = (entry) => scoreFields(searchIndex.get(entry.id) || [], queryTests());
+  const searchScore = (entry) =>
+    scoreFields(searchIndex.get(entry.id) || [], queryTests());
 
   const SORTS = {
     name: (a, b) => a.name.localeCompare(b.name),
@@ -206,7 +230,11 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
 
   function cardHtml(entry) {
     const age = verifiedAge(entry.verified);
-    const flags = [entry.status, commercialLabel(entry.commercial), entry.license]
+    const flags = [
+      entry.status,
+      commercialLabel(entry.commercial),
+      entry.license,
+    ]
       .map(escapeHtml)
       .join(" &middot; ");
     const formats = (entry.formats || [])
@@ -218,33 +246,62 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
         ? `<span class="tax">${escapeHtml(entry.grid_dimensions)}</span>`
         : "",
       entry.camera_perspective
-        ? `<span class="tax">${escapeHtml(PERSPECTIVE_LABELS[entry.camera_perspective] || entry.camera_perspective)}</span>`
+        ? `<span class="tax">${escapeHtml(
+            PERSPECTIVE_LABELS[entry.camera_perspective] ||
+              entry.camera_perspective
+          )}</span>`
         : "",
     ].join("");
     // The same badge as build.mjs maintenanceFlagHtml (titles from shared.mjs MAINTENANCE_NOTES).
     const maintenance = entry.maintenance
-      ? ` <span class="maintenance-flag" title="${escapeHtml(MAINTENANCE_NOTES[entry.maintenance] || "")}">${escapeHtml(entry.maintenance)}</span>`
+      ? ` <span class="maintenance-flag" title="${escapeHtml(
+          MAINTENANCE_NOTES[entry.maintenance] || ""
+        )}">${escapeHtml(entry.maintenance)}</span>`
       : "";
     // The same badge as build.mjs engineLockFlagHtml.
     const engineLock = entry.engine_lock
-      ? ` <span class="engine-flag" title="${escapeHtml(ENGINE_LOCK_NOTES[entry.engine_lock] || "")}">${escapeHtml(ENGINE_LOCK_LABELS[entry.engine_lock] || entry.engine_lock)}</span>`
+      ? ` <span class="engine-flag" title="${escapeHtml(
+          ENGINE_LOCK_NOTES[entry.engine_lock] || ""
+        )}">${escapeHtml(
+          ENGINE_LOCK_LABELS[entry.engine_lock] || entry.engine_lock
+        )}</span>`
       : "";
-    return `<article class="entry-card" id="entry-${escapeHtml(entry.id)}" data-id="${escapeHtml(entry.id)}" data-status="${escapeHtml(entry.status)}" style="--edge:${edgeColor(entry)}">
+    return `<article class="entry-card" id="entry-${escapeHtml(
+      entry.id
+    )}" data-id="${escapeHtml(entry.id)}" data-status="${escapeHtml(
+      entry.status
+    )}" style="--edge:${edgeColor(entry)}">
   <span class="entry-edge" aria-hidden="true"></span>
   <div class="entry-body">
     <div class="entry-top">
-      <h4><a class="entry-link" href="entry/${escapeHtml(entry.id)}/" data-id="${escapeHtml(entry.id)}">${escapeHtml(entry.name)}</a></h4>
+      <h4><a class="entry-link" href="entry/${escapeHtml(
+        entry.id
+      )}/" data-id="${escapeHtml(entry.id)}">${escapeHtml(entry.name)}</a></h4>
       <span class="entry-flags">${flags}${maintenance}${engineLock}</span>
     </div>
     <p>${escapeHtml(entry.summary || "")}</p>
     <div class="meta-line">
       <span>${escapeHtml(entry.category)}</span>${formats}${taxonomy}
-      <span class="verified is-${age.bucket}" title="License last checked at the source">${escapeHtml(age.text)}</span>
+      <span class="verified is-${
+        age.bucket
+      }" title="License last checked at the source">${escapeHtml(
+      age.text
+    )}</span>
     </div>
     <div class="entry-links">
-      <a href="${escapeHtml(entry.url)}" rel="noopener noreferrer">Open source</a>
-      <a href="${escapeHtml(`${repo}/blob/main/${entry.path}`)}" rel="noopener noreferrer">Entry and evidence</a>
-      <button type="button" class="link-button shortlist-toggle" data-shortlist="${escapeHtml(entry.id)}" aria-pressed="false" data-name="${escapeHtml(entry.name)}" aria-label="Add to shortlist: ${escapeHtml(entry.name)}" hidden>Add to shortlist</button>
+      <a href="${escapeHtml(
+        entry.url
+      )}" rel="noopener noreferrer">Open source</a>
+      <a href="${escapeHtml(
+        `${repo}/blob/main/${entry.path}`
+      )}" rel="noopener noreferrer">Entry and evidence</a>
+      <button type="button" class="link-button shortlist-toggle" data-shortlist="${escapeHtml(
+        entry.id
+      )}" aria-pressed="false" data-name="${escapeHtml(
+      entry.name
+    )}" aria-label="Add to shortlist: ${escapeHtml(
+      entry.name
+    )}" hidden>Add to shortlist</button>
     </div>
   </div>
 </article>`;
@@ -272,7 +329,13 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
     host.innerHTML = buttons
       .map(
         (b) =>
-          `<button type="button" class="chip" data-cat="${escapeHtml(b.id)}" aria-pressed="false">${escapeHtml(b.label)} <span class="chip-count" data-count-for="${escapeHtml(b.id)}"></span></button>`
+          `<button type="button" class="chip" data-cat="${escapeHtml(
+            b.id
+          )}" aria-pressed="false">${escapeHtml(
+            b.label
+          )} <span class="chip-count" data-count-for="${escapeHtml(
+            b.id
+          )}"></span></button>`
       )
       .join("");
     host.addEventListener("click", (e) => {
@@ -290,8 +353,13 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
       chip.classList.toggle("is-active", on);
       chip.setAttribute("aria-pressed", on ? "true" : "false");
       const slot = chip.querySelector(".chip-count");
-      if (slot) slot.textContent = cat === "all" ? String(total) : String(counts.get(cat) || 0);
-      chip.classList.toggle("is-empty", cat !== "all" && !(counts.get(cat) || 0));
+      if (slot)
+        slot.textContent =
+          cat === "all" ? String(total) : String(counts.get(cat) || 0);
+      chip.classList.toggle(
+        "is-empty",
+        cat !== "all" && !(counts.get(cat) || 0)
+      );
     });
   }
 
@@ -302,26 +370,44 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
     if (state.category !== DEFAULTS.category) {
       chips.push({
         key: "category",
-        label: `category: ${categoryLabels[state.category]?.label || state.category}`,
+        label: `category: ${
+          categoryLabels[state.category]?.label || state.category
+        }`,
       });
     }
-    if (state.q.trim()) chips.push({ key: "q", label: `search: ${state.q.trim()}` });
-    if (state.sort !== DEFAULTS.sort) chips.push({ key: "sort", label: `sort: ${state.sort}` });
+    if (state.q.trim())
+      chips.push({ key: "q", label: `search: ${state.q.trim()}` });
+    if (state.sort !== DEFAULTS.sort)
+      chips.push({ key: "sort", label: `sort: ${state.sort}` });
     if (state.perspective !== DEFAULTS.perspective)
       chips.push({
         key: "perspective",
-        label: `view: ${PERSPECTIVE_LABELS[state.perspective] || state.perspective}`,
+        label: `view: ${
+          PERSPECTIVE_LABELS[state.perspective] || state.perspective
+        }`,
       });
     if (state.license !== DEFAULTS.license)
-      chips.push({ key: "license", label: `licence: ${LICENSE_FAMILIES[state.license] || state.license}` });
+      chips.push({
+        key: "license",
+        label: `licence: ${LICENSE_FAMILIES[state.license] || state.license}`,
+      });
     if (state.format !== DEFAULTS.format)
-      chips.push({ key: "format", label: `format: ${FORMAT_GROUPS[state.format]?.label || state.format}` });
+      chips.push({
+        key: "format",
+        label: `format: ${FORMAT_GROUPS[state.format]?.label || state.format}`,
+      });
     if (!state.active) chips.push({ key: "active", label: "hiding active" });
-    if (!state.review) chips.push({ key: "review", label: "hiding needs-review" });
-    if (state.deprecated) chips.push({ key: "deprecated", label: "showing deprecated" });
+    if (!state.review)
+      chips.push({ key: "review", label: "hiding needs-review" });
+    if (state.deprecated)
+      chips.push({ key: "deprecated", label: "showing deprecated" });
     if (state.commercialOnly)
-      chips.push({ key: "commercialOnly", label: "commercial OK or per-file review" });
-    if (state.noAttr) chips.push({ key: "noAttr", label: "no attribution only" });
+      chips.push({
+        key: "commercialOnly",
+        label: "commercial OK or per-file review",
+      });
+    if (state.noAttr)
+      chips.push({ key: "noAttr", label: "no attribution only" });
 
     // The filter keeps aggregators whose files differ, which a reader
     // filtering for "safe to ship" must see, not find in a tooltip.
@@ -341,7 +427,11 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
       ${chips
         .map(
           (c) =>
-            `<button type="button" class="chip chip-remove" data-clear="${escapeHtml(c.key)}">${escapeHtml(c.label)}<span aria-hidden="true"> x</span><span class="sr-only"> (remove)</span></button>`
+            `<button type="button" class="chip chip-remove" data-clear="${escapeHtml(
+              c.key
+            )}">${escapeHtml(
+              c.label
+            )}<span aria-hidden="true"> x</span><span class="sr-only"> (remove)</span></button>`
         )
         .join("")}
       <button type="button" class="chip chip-clear" data-clear="all">Clear all</button>`;
@@ -350,7 +440,9 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
   function headingHtml(cat, count) {
     const label = categoryLabels[cat]?.label || cat;
     return (
-      `<h3 class="group-heading" id="group-${escapeHtml(cat)}" data-cat="${escapeHtml(cat)}">` +
+      `<h3 class="group-heading" id="group-${escapeHtml(
+        cat
+      )}" data-cat="${escapeHtml(cat)}">` +
       `<span class="group-name">${escapeHtml(label)}</span>` +
       `<span class="group-count">${count}</span>` +
       `</h3>`
@@ -370,8 +462,10 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
 
   function adoptNodes() {
     const grid = $("#entry-grid");
-    for (const el of $$(".entry-card", grid)) cardNodes.set(el.getAttribute("data-id"), el);
-    for (const el of $$(".group-heading", grid)) headingNodes.set(el.getAttribute("data-cat"), el);
+    for (const el of $$(".entry-card", grid))
+      cardNodes.set(el.getAttribute("data-id"), el);
+    for (const el of $$(".group-heading", grid))
+      headingNodes.set(el.getAttribute("data-cat"), el);
     const tpl = document.createElement("template");
     tpl.innerHTML = [
       ...data.entries.filter((e) => !cardNodes.has(e.id)).map(cardHtml),
@@ -380,7 +474,8 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
         .map((cat) => headingHtml(cat, 0)),
     ].join("");
     for (const el of [...tpl.content.children]) {
-      if (el.matches(".entry-card")) cardNodes.set(el.getAttribute("data-id"), el);
+      if (el.matches(".entry-card"))
+        cardNodes.set(el.getAttribute("data-id"), el);
       else headingNodes.set(el.getAttribute("data-cat"), el);
     }
     // Anything else the grid held (a stale prerender) goes.
@@ -398,16 +493,62 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
   function placeNodes(order) {
     const grid = $("#entry-grid");
     const current = grid.children;
-    if (order.length === current.length && order.every((n, i) => current[i] === n)) return;
+    if (
+      order.length === current.length &&
+      order.every((n, i) => current[i] === n)
+    )
+      return;
     grid.append(...order);
+  }
+
+  function renderSearchSuggestions() {
+    const host = $("#empty-suggestions");
+    host.replaceChildren();
+
+    const query = state.q.trim();
+
+    // Show suggestions only when a search query exists.
+    if (!query) return;
+
+    const matches = closestEntries(query, data.entries, { limit: 5 });
+
+    if (!matches.length) return;
+
+    const heading = document.createElement("span");
+    heading.textContent = " Did you mean: ";
+    host.append(heading);
+
+    matches.forEach((entry, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "link-button";
+      button.textContent = entry.name;
+
+      button.addEventListener("click", () => {
+        state.q = entry.name;
+        $("#search").value = entry.name;
+        apply();
+      });
+
+      host.append(button);
+
+      if (index < matches.length - 1) {
+        host.append(document.createTextNode(", "));
+      }
+    });
+
+    host.append(document.createTextNode("?"));
   }
 
   function renderGrid({ list, ranked }) {
     const grid = $("#entry-grid");
     const empty = $("#empty-state");
     const group = shouldGroup();
-    $("#result-count").textContent = `${list.length} of ${data.entries.length} entries shown`;
+    $(
+      "#result-count"
+    ).textContent = `${list.length} of ${data.entries.length} entries shown`;
     empty.hidden = list.length > 0;
+    renderSearchSuggestions();
 
     // Under a plain sort the order of all nodes is fixed, so filtering only
     // toggles visibility. A ranked search reorders on every change.
@@ -418,17 +559,24 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
       placedKey = key;
       const shown = new Set(list.map((e) => e.id));
       const rest = data.entries.filter((e) => !shown.has(e.id));
-      const all = ranked ? [...list, ...rest] : data.entries.slice().sort(SORTS[state.sort] || SORTS.name);
+      const all = ranked
+        ? [...list, ...rest]
+        : data.entries.slice().sort(SORTS[state.sort] || SORTS.name);
       const order = [flatHeading];
       if (group) {
         for (const cat of Object.keys(categoryLabels)) {
           order.push(headingNodes.get(cat));
-          for (const e of all) if (e.category === cat) order.push(cardNodes.get(e.id));
+          for (const e of all)
+            if (e.category === cat) order.push(cardNodes.get(e.id));
         }
         // Entries outside the configured categories never show grouped.
-        for (const e of all) if (!categoryLabels[e.category]) order.push(cardNodes.get(e.id));
+        for (const e of all)
+          if (!categoryLabels[e.category]) order.push(cardNodes.get(e.id));
       } else {
-        order.push(...headingNodes.values(), ...all.map((e) => cardNodes.get(e.id)));
+        order.push(
+          ...headingNodes.values(),
+          ...all.map((e) => cardNodes.get(e.id))
+        );
       }
       placeNodes(order);
     }
@@ -447,9 +595,12 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
       el.hidden = !n;
       if (n) el.querySelector(".group-count").textContent = String(n);
     }
-    groupHeadings = [...grid.children].filter((el) => el.matches(".group-heading") && !el.hidden);
+    groupHeadings = [...grid.children].filter(
+      (el) => el.matches(".group-heading") && !el.hidden
+    );
     // The first visible heading sits flush with the top of the list.
-    for (const el of headingNodes.values()) el.classList.toggle("is-lead", el === groupHeadings[0]);
+    for (const el of headingNodes.values())
+      el.classList.toggle("is-lead", el === groupHeadings[0]);
     syncSpy();
   }
 
@@ -470,7 +621,8 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
     // underneath the sticky filter bar. Its height varies with wrapping, so
     // publish the measured value and let CSS scroll-margin use it. On small
     // screens the bar is not sticky, and nothing needs clearing.
-    const stuck = !!controls && getComputedStyle(controls).position === "sticky";
+    const stuck =
+      !!controls && getComputedStyle(controls).position === "sticky";
     document.documentElement.style.setProperty(
       "--sticky-h",
       stuck ? `${Math.round(controls.getBoundingClientRect().height)}px` : "0px"
@@ -478,7 +630,8 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
     const cutoff = (stuck ? controls.getBoundingClientRect().bottom : 0) + 8;
     let found = null;
     for (const h of groupHeadings) {
-      if (h.getBoundingClientRect().top <= cutoff) found = h.getAttribute("data-cat");
+      if (h.getBoundingClientRect().top <= cutoff)
+        found = h.getAttribute("data-cat");
       else break;
     }
     if (found === currentGroup) return;
@@ -523,8 +676,12 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
         if (!entry || !byId[entry.id]) return "";
         return `<tr>
   <td class="need">${escapeHtml(entry.need || "")}</td>
-  <td><a href="entry/${escapeHtml(entry.id)}/">${escapeHtml(entry.name)}</a></td>
-  <td class="license">${escapeHtml(entry.license)} &middot; ${escapeHtml(commercialLabel(entry.commercial))}</td>
+  <td><a href="entry/${escapeHtml(entry.id)}/">${escapeHtml(
+          entry.name
+        )}</a></td>
+  <td class="license">${escapeHtml(entry.license)} &middot; ${escapeHtml(
+          commercialLabel(entry.commercial)
+        )}</td>
 </tr>`;
       })
       .join("");
@@ -534,7 +691,11 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
     $("#guide-list").innerHTML = (data.guides || [])
       .map(
         (g) =>
-          `<li><a href="${escapeHtml(`${repo}/blob/main/${g.path}`)}" rel="noopener noreferrer">${escapeHtml(g.title)}<span>${escapeHtml(g.path)}</span></a></li>`
+          `<li><a href="${escapeHtml(
+            `${repo}/blob/main/${g.path}`
+          )}" rel="noopener noreferrer">${escapeHtml(
+            g.title
+          )}<span>${escapeHtml(g.path)}</span></a></li>`
       )
       .join("");
   }
@@ -616,14 +777,25 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
 
     const selects = [
       ["#license-family", "license", LICENSE_FAMILIES],
-      ["#format-group", "format", Object.fromEntries(Object.entries(FORMAT_GROUPS).map(([k, g]) => [k, g.label]))],
+      [
+        "#format-group",
+        "format",
+        Object.fromEntries(
+          Object.entries(FORMAT_GROUPS).map(([k, g]) => [k, g.label])
+        ),
+      ],
     ];
     for (const [sel, field, choices] of selects) {
       const el = $(sel);
       el.insertAdjacentHTML(
         "beforeend",
         Object.entries(choices)
-          .map(([value, label]) => `<option value="${escapeHtml(value)}">${escapeHtml(label)}</option>`)
+          .map(
+            ([value, label]) =>
+              `<option value="${escapeHtml(value)}">${escapeHtml(
+                label
+              )}</option>`
+          )
           .join("")
       );
       el.value = state[field];
@@ -666,7 +838,8 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
       syncControls();
       apply();
       const left = $$("#active-filters [data-clear]");
-      const next = key === "all" ? null : left[Math.min(index, left.length - 1)];
+      const next =
+        key === "all" ? null : left[Math.min(index, left.length - 1)];
       (next || $("#result-count")).focus();
     });
 
@@ -696,7 +869,10 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
     // further down, leaving keyboard users typing into a field off screen.
     top.addEventListener("click", () => {
       const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-      $("#catalog").scrollIntoView({ block: "start", behavior: reduce ? "auto" : "smooth" });
+      $("#catalog").scrollIntoView({
+        block: "start",
+        behavior: reduce ? "auto" : "smooth",
+      });
       search.focus({ preventScroll: true });
     });
 
@@ -754,5 +930,4 @@ import { passesFilters as passes, queryTests as compileQuery, readState, scoreFi
   syncControls();
   apply();
   restoreScroll();
-
 })();

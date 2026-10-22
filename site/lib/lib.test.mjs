@@ -658,6 +658,11 @@ const guessPool = [
 eq("404 guesses closest first", closestEntries("kenny-ui-pack", guessPool)[0].id, "kenney-ui-pack");
 eq("404 guesses drop weak matches", closestEntries("kenny-ui-pack", guessPool).some((e) => e.id === "freesound"), false);
 eq("404 guesses respect limit", closestEntries("kenney-ui", guessPool, { limit: 1 }).length, 1);
+eq(
+  "404 guesses suggest misspelled publisher",
+  closestEntries("kenny-ui-pack", guessPool)[0].name,
+  "Kenney UI Pack"
+);
 
 /* sync-counts and new-entry text rewrites (scaffold.mjs, #67) -------------- */
 import { newEntryProblem, newEntryText, syncCatalogReadme, syncConfig, syncReadme } from "./scaffold.mjs";
